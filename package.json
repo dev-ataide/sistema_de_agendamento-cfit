@@ -1,0 +1,11 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Projeto de agendamento para a CFIT",
+  "main": "index.js",
+  "scripts": {
+    "test": "dev"
+  },
+  "author": "Guilherme Ramos Ataide Ferreira e Maycon Yuri Pereira Cunha",
+  "license": "ISC"
+}
