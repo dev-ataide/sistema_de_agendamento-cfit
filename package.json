@@ -1,11 +1,17 @@
 {
-  "name": "backend",
+  "name": "cfit-atendente",
   "version": "1.0.0",
-  "description": "Projeto de agendamento para a CFIT",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "dev"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Guilherme Ramos Ataide Ferreira e Maycon Yuri Pereira Cunha",
-  "license": "ISC"
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mysql2": "^3.6.1",
+    "sequelize": "^6.33.0"
+  }
 }
