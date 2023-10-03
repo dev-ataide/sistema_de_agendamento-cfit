@@ -1,36 +1,26 @@
-const express = require("express")
-const app = express()
-const cors = require("cors")
+const express = require("express");
+const app = express();
+const cors = require("cors");
+const conexaodb = require("./database/db");
 
-// Import BD
-const conexaodb = require("./database/db")
-//Import Controllers
-const UserController = require("./Usuario/UserController")
+app.use(cors());
+app.use(express.json());
 
-//utilizando o EXPRESS
-app.use(cors())
-app.use(express.json())
-
-//Conexao c banco de dados
 conexaodb
     .authenticate()
     .then(() => {
-        console.log("Conectado ao banco de dados!")
-    }).catch((error) => {
-        console.log(error)
+        console.log("Conectado ao banco de dados!");
     })
+    .catch((error) => {
+        console.log(error);
+    });
 
+const userRoutes = require("./routes/usuarioRoute");
+app.use('/', userRoutes);
 
+const testeRoutes = require("./routes/testeRoute");
+app.use('/', testeRoutes);
 
-
-//Rota-TESTE
-app.get("/", (req, res) => {
-    res.send("hi")
-})
-
-app.use('/', UserController)
-
-// Porta do servidor
 const port = 8080;
 app.listen(port, () => {
     console.log(`Servidor on-line! Acesse http://localhost:${port}`);

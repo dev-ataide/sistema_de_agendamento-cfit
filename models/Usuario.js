@@ -19,6 +19,10 @@ const Usuario = conexaodb.define('Usuario', {
         type: DataTypes.ENUM('Masculino', 'Feminino', 'Outro'),
         allowNull: false,
     },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     cidade: {
         type: DataTypes.STRING,
         allowNull: false,
