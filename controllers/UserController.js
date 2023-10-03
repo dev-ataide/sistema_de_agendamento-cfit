@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Usuario = require("../models/Usuario");
-const { validarUsuario } = require("../services/validarUsuario");
+const { validarUsuario } = require("../services/servicesUser/validarUsuario");
 
-const { exibirDadosRecebidos } = require("../services/showDataUser");
+const { exibirDadosRecebidos } = require("../services/servicesUser/showDataUser");
 // Rota para criar um novo usuário
 router.post('/usuarios', async (req, res) => {
     const { nome, cpf, dataNascimento, sexo, cidade, estado, email } = req.body;

@@ -1,4 +1,4 @@
-const Usuario = require("../models/Usuario");
+const Usuario = require("../../models/Usuario");
 
 // Função para validar um usuário pelo CPF ou e-mail
 async function validarUsuario(cpf, email) {

@@ -21,6 +21,10 @@ app.use('/', userRoutes);
 const testeRoutes = require("./routes/testeRoute");
 app.use('/', testeRoutes);
 
+const agendamentoRoutes = require("./routes/agendamentoRoute")
+app.use('/',agendamentoRoutes)
+
+
 const port = 8080;
 app.listen(port, () => {
     console.log(`Servidor on-line! Acesse http://localhost:${port}`);
