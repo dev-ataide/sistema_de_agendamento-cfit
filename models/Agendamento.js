@@ -1,42 +1,31 @@
-// models/Agendamento.js
-const { DataTypes } = require('sequelize');
-const sequelize = require('../database/db');
+// Agendamento.js
+const { DataTypes } = require("sequelize");
+const sequelize = require("../database/db");
+const Cliente = require("./Cliente"); // Importe o modelo Cliente aqui
+const UnidadeEmpresa = require("./UnidadeEmpresa");
+const Servico = require("./Servico");
 
-const Agendamento = sequelize.define('Agendamento', {
-  data: {
+const Agendamento = sequelize.define("Agendamento", {
+  dataHoraAgendamento: {
     type: DataTypes.DATE,
     allowNull: false,
   },
-  horario: {
-    type: DataTypes.STRING,
+  disponibilidade: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
-  tipoServico: {
-    type: DataTypes.STRING,
+  statusAgendamento: {
+    type: DataTypes.ENUM("Confirmado", "Pendente", "Cancelado"),
     allowNull: false,
   },
-  colaborador: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  observacao: {
-    type: DataTypes.TEXT,
-    allowNull: true, // Pode ser nulo se não houver observação
-  },
-  pacote: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: false, // Valor padrão é falso (não é um pacote)
-  },
-  metodoPagamento: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    defaultValue: false, // Valor padrão é falso (não é um pacote)
-  },
-
-  // Outros campos do seu modelo aqui
 });
 
-Agendamento.sync()
+// Sincronização com o banco de dados
+Agendamento.sync();
+
+// Relacionamentos
+Agendamento.belongsTo(Cliente, { foreignKey: "idCliente" }); // Um agendamento pertence a um cliente
+Agendamento.belongsTo(UnidadeEmpresa, { foreignKey: "idUnidade" }); // Um agendamento pertence a uma unidade de empresa
+Agendamento.belongsTo(Servico, { foreignKey: "idServico" }); // Um agendamento pertence a um serviço
 
 module.exports = Agendamento;
