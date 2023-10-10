@@ -14,14 +14,10 @@ conexaodb
         console.log(error);
     });
 
-const userRoutes = require("./routes/usuarioRoute");
-app.use('/', userRoutes);
-
 const testeRoutes = require("./routes/testeRoute");
 app.use('/', testeRoutes);
 
-const agendamentoRoutes = require("./routes/agendamentoRoute")
-app.use('/',agendamentoRoutes)
+
 
 
 const port = 8080;
