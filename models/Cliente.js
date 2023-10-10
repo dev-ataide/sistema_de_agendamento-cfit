@@ -1,18 +1,50 @@
-// Cliente.js
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/db");
 
 const Cliente = sequelize.define("Cliente", {
-    numeroTelefone: {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+    },
+    nome: { // Corrigi o nome do campo
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    telefone: {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    endereco: {
+    email: {
         type: DataTypes.STRING,
+        allowNull: true,
+        unique: true,
+    },
+    senha: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    foto: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    sexo: {
+        type: DataTypes.ENUM('M', 'F'),
+        allowNull: true,
+    },
+    dataNascimento: {
+        type: DataTypes.DATE,
         allowNull: true,
     },
 });
 
-Cliente.sync();
+Cliente.sync()
+  .then(() => {
+    console.log("Tabela 'Cliente' sincronizada com sucesso!");
+  })
+  .catch((error) => {
+    console.error("Erro durante a sincronização da tabela 'Cliente':", error);
+  });
 
 module.exports = Cliente;

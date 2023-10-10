@@ -1,4 +1,3 @@
-// ServicosGerenciados.js
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/db");
 const UnidadeEmpresa = require("./UnidadeEmpresa");
@@ -12,9 +11,14 @@ const ServicosGerenciados = sequelize.define("ServicosGerenciados", {
 });
 
 // Sincronização com o banco de dados
-ServicosGerenciados.sync();
+ServicosGerenciados.sync()
+  .then(() => {
+    console.log("Tabela 'ServicosGerenciados' sincronizada com sucesso!!");
+  })
+  .catch((error) => {
+    console.error("Erro durante a sincronização da tabela 'ServicosGerenciados':", error);
+  });
 
-// Relacionamentos
 ServicosGerenciados.belongsTo(UnidadeEmpresa, { foreignKey: "idUnidade" }); // Um serviço gerenciado pertence a uma unidade de empresa
 ServicosGerenciados.belongsTo(Servico, { foreignKey: "idServico" }); // Um serviço gerenciado pertence a um serviço
 

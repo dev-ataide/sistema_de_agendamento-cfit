@@ -1,4 +1,3 @@
-// Servico.js
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/db");
 
@@ -21,6 +20,12 @@ const Servico = sequelize.define("Servico", {
   },
 });
 
-Servico.sync();
+Servico.sync()
+  .then(() => {
+    console.log("Tabela 'Servico' sincronizada com sucesso!");
+  })
+  .catch((error) => {
+    console.error("Erro durante a sincronização da tabela 'Servico':", error);
+  });
 
 module.exports = Servico;

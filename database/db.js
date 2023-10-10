@@ -1,6 +1,6 @@
 const { Sequelize } = require("sequelize");
 
-const DB_NAME = 'cfit';
+const DB_NAME = 'cfitteste';
 const DB_USER = 'root'; // em alguns bancos o padrão user é root
 const DB_PASSWORD = 'maycon';
 

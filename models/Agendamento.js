@@ -21,9 +21,14 @@ const Agendamento = sequelize.define("Agendamento", {
 });
 
 // Sincronização com o banco de dados
-Agendamento.sync();
+Agendamento.sync()
+  .then(() => {
+    console.log("Tabela 'Agendamento' sincronizada com sucesso!");
+  })
+  .catch((error) => {
+    console.error("Erro durante a sincronização da tabela 'Agendamento':", error);
+  });
 
-// Relacionamentos
 Agendamento.belongsTo(Cliente, { foreignKey: "idCliente" }); // Um agendamento pertence a um cliente
 Agendamento.belongsTo(UnidadeEmpresa, { foreignKey: "idUnidade" }); // Um agendamento pertence a uma unidade de empresa
 Agendamento.belongsTo(Servico, { foreignKey: "idServico" }); // Um agendamento pertence a um serviço

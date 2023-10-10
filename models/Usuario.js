@@ -42,10 +42,16 @@ const Usuario = sequelize.define("Usuario", {
     },
 });
 
-// Relacionamentos
 Usuario.hasOne(Cliente, { foreignKey: "idUsuario" }); // Um usuário tem um cliente associado
 Usuario.hasOne(Gerente, { foreignKey: "idUsuario" }); // Um usuário tem um gerente associado
 Usuario.hasOne(UnidadeEmpresa, { foreignKey: "idAdministrador" }); // Um usuário administrador está associado a uma unidade de empresa
 
-Usuario.sync();
+Usuario.sync()
+  .then(() => {
+    console.log("Tabela 'Usuario' sincronizada com sucesso!");
+  })
+  .catch((error) => {
+    console.error("Erro durante a sincronização da tabela 'Usuario':", error);
+  });
+
 module.exports = Usuario;
