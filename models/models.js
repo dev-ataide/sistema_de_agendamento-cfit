@@ -11,7 +11,7 @@ const colaboradorServico = require("./relacionamentos/colaboradorServico");
 const Colaborador = require("./Colaborador");
 const unidadeColaborador = require("./relacionamentos/unidadeColaborador");
 const unidadeCliente = require("./relacionamentos/unidadeCliente");
-//const servicosGerenciados = require("./ServicosGerenciados")
+//const servicosGerenciados = require("./ServicosGerenciados") -> Erro
 
 // Chame a função de sincronização para cada modelo na ordem correta
 (async () => {
@@ -28,19 +28,20 @@ const unidadeCliente = require("./relacionamentos/unidadeCliente");
     await Gerente.sync();
     console.log("Tabela 'Gerente' sincronizada com sucesso!");
 
+    await Unidade.sync();
+    console.log("Tabela 'Unidade' sincronizada com sucesso!");
+
     await Servico.sync();
     console.log("Tabela 'Servico' sincronizada com sucesso!");
 
     await Agendamento.sync();
     console.log("Tabela 'Agendamento' sincronizada com sucesso!");
 
-    // Horario.sync();
+    // Horario.sync(); ERRO DE SINTAXE
     
-    await Unidade.sync();
-    console.log("Tabela 'Unidade' sincronizada com sucesso!");
 
-    await colaboradorServico.sync();
-    console.log("Tabela 'colaboradorServico' sincronizada com sucesso!");
+   // await colaboradorServico.sync(); -> ERRO DE RELACIONAMENTO
+    //console.log("Tabela 'colaboradorServico' sincronizada com sucesso!");
 
     await Colaborador.sync();
     console.log("Tabela 'Colaborador' sincronizada com sucesso!");
