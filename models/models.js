@@ -1,65 +1,32 @@
 // models.js
-const Cliente = require("./models/Cliente");
-const Gerente = require("./models/Gerente");
-const UnidadeEmpresa = require("./models/UnidadeEmpresa");
-const Usuario = require("./models/Usuario");
-const Servico = require("./models/Servico");
-const Agendamento = require("./models/Agendamento");
-const TabelaTeste = require("./models/TabelaTeste");
+const Usuario = require("./Usuario");
+const Cliente = require("./Cliente");
+const Gerente = require("./Gerente");
+const UnidadeEmpresa = require("./UnidadeEmpresa");
+const Servico = require("./Servico");
+const Agendamento = require("./Agendamento");
 
-// Chame a função de sincronização para cada modelo
-Cliente.sync()
-    .then(() => {
-        console.log("Tabela 'Cliente' sincronizada com sucesso!");
-    })
-    .catch((error) => {
-        console.error("Erro durante a sincronização da tabela 'Cliente':", error);
-    });
+// Chame a função de sincronização para cada modelo na ordem correta
+(async () => {
+  try {
+    await Usuario.sync();
+    console.log("Tabela 'Usuario' sincronizada com sucesso!");
 
-Gerente.sync()
-    .then(() => {
-        console.log("Tabela 'Gerente' sincronizada com sucesso!");
-    })
-    .catch((error) => {
-        console.error("Erro durante a sincronização da tabela 'Gerente':", error);
-    });
+    await Cliente.sync();
+    console.log("Tabela 'Cliente' sincronizada com sucesso!");
 
-UnidadeEmpresa.sync()
-    .then(() => {
-        console.log("Tabela 'UnidadeEmpresa' sincronizada com sucesso!");
-    })
-    .catch((error) => {
-        console.error("Erro durante a sincronização da tabela 'UnidadeEmpresa':", error);
-    });
+    await UnidadeEmpresa.sync();
+    console.log("Tabela 'UnidadeEmpresa' sincronizada com sucesso!");
 
-Usuario.sync()
-    .then(() => {
-        console.log("Tabela 'Usuario' sincronizada com sucesso!");
-    })
-    .catch((error) => {
-        console.error("Erro durante a sincronização da tabela 'Usuario':", error);
-    });
+    await Gerente.sync();
+    console.log("Tabela 'Gerente' sincronizada com sucesso!");
 
-Servico.sync()
-    .then(() => {
-        console.log("Tabela 'Servico' sincronizada com sucesso!");
-    })
-    .catch((error) => {
-        console.error("Erro durante a sincronização da tabela 'Servico':", error);
-    });
+    await Servico.sync();
+    console.log("Tabela 'Servico' sincronizada com sucesso!");
 
-Agendamento.sync()
-    .then(() => {
-        console.log("Tabela 'Agendamento' sincronizada com sucesso!");
-    })
-    .catch((error) => {
-        console.error("Erro durante a sincronização da tabela 'Agendamento':", error);
-    });
-
-TabelaTeste.sync()
-    .then(() => {
-        console.log("Tabela 'TabelaTeste' sincronizada com sucesso!");
-    })
-    .catch((error) => {
-        console.error("Erro durante a sincronização da tabela 'TabelaTeste':", error);
-    });
+    await Agendamento.sync();
+    console.log("Tabela 'Agendamento' sincronizada com sucesso!");
+  } catch (error) {
+    console.error("Erro durante a sincronização das tabelas:", error);
+  }
+})();

@@ -39,12 +39,5 @@ const Cliente = sequelize.define("Cliente", {
     },
 });
 
-Cliente.sync()
-  .then(() => {
-    console.log("Tabela 'Cliente' sincronizada com sucesso!");
-  })
-  .catch((error) => {
-    console.error("Erro durante a sincronização da tabela 'Cliente':", error);
-  });
 
 module.exports = Cliente;

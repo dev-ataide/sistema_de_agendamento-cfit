@@ -2,6 +2,10 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const conexaodb = require("./database/db");
+const sincronizarTabelas = require("./models/models");
+
+
+
 app.use(cors());
 app.use(express.json());
 
@@ -9,10 +13,12 @@ conexaodb
     .authenticate()
     .then(() => {
         console.log("Conectado ao banco de dados!");
+
     })
     .catch((error) => {
         console.log(error);
     });
+
 
 const testeRoutes = require("./routes/testeRoute");
 app.use('/', testeRoutes);

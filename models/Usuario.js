@@ -1,4 +1,3 @@
-// Usuario.js
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/db");
 const Cliente = require("./Cliente");
@@ -33,25 +32,17 @@ const Usuario = sequelize.define("Usuario", {
         allowNull: true,
     },
     sexo: {
-        type: DataTypes.ENUM("Masculino", "Feminino", "Outro"),
+        type: DataTypes.ENUM("masculino", "feminino", "outro"), // Alterado para letras minúsculas
         allowNull: false,
     },
     tipoUsuario: {
-        type: DataTypes.ENUM("Cliente", "Gerente", "Administrador"),
+        type: DataTypes.ENUM("cliente", "gerente", "administrador"), // Alterado para letras minúsculas
         allowNull: false,
     },
 });
 
-Usuario.hasOne(Cliente, { foreignKey: "idUsuario" }); // Um usuário tem um cliente associado
-Usuario.hasOne(Gerente, { foreignKey: "idUsuario" }); // Um usuário tem um gerente associado
-Usuario.hasOne(UnidadeEmpresa, { foreignKey: "idAdministrador" }); // Um usuário administrador está associado a uma unidade de empresa
-
-Usuario.sync()
-  .then(() => {
-    console.log("Tabela 'Usuario' sincronizada com sucesso!");
-  })
-  .catch((error) => {
-    console.error("Erro durante a sincronização da tabela 'Usuario':", error);
-  });
+Usuario.hasOne(Cliente, { foreignKey: "idUsuario" });
+Usuario.hasOne(Gerente, { foreignKey: "idUsuario" });
+Usuario.hasOne(UnidadeEmpresa, { foreignKey: "idAdministrador" });
 
 module.exports = Usuario;

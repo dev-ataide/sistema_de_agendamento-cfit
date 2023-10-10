@@ -18,13 +18,5 @@ const UnidadeEmpresa = sequelize.define("UnidadeEmpresa", {
   },
 });
 
-// Sincronização com o banco de dados
-UnidadeEmpresa.sync()
-  .then(() => {
-    console.log("Tabela 'UnidadeEmpresa' sincronizada com sucesso!");
-  })
-  .catch((error) => {
-    console.error("Erro durante a sincronização da tabela 'UnidadeEmpresa':", error);
-  });
 
 module.exports = UnidadeEmpresa;
