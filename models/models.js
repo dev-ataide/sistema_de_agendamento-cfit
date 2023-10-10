@@ -5,6 +5,13 @@ const Gerente = require("./Gerente");
 const UnidadeEmpresa = require("./UnidadeEmpresa");
 const Servico = require("./Servico");
 const Agendamento = require("./Agendamento");
+//const Horario = require("./Horario");
+const Unidade = require("./Unidade");
+const colaboradorServico = require("./relacionamentos/colaboradorServico");
+const Colaborador = require("./Colaborador");
+const unidadeColaborador = require("./relacionamentos/unidadeColaborador");
+const unidadeCliente = require("./relacionamentos/unidadeCliente");
+//const servicosGerenciados = require("./ServicosGerenciados")
 
 // Chame a função de sincronização para cada modelo na ordem correta
 (async () => {
@@ -26,6 +33,26 @@ const Agendamento = require("./Agendamento");
 
     await Agendamento.sync();
     console.log("Tabela 'Agendamento' sincronizada com sucesso!");
+
+    // Horario.sync();
+    
+    await Unidade.sync();
+    console.log("Tabela 'Unidade' sincronizada com sucesso!");
+
+    await colaboradorServico.sync();
+    console.log("Tabela 'colaboradorServico' sincronizada com sucesso!");
+
+    await Colaborador.sync();
+    console.log("Tabela 'Colaborador' sincronizada com sucesso!");
+
+    await unidadeColaborador.sync();
+    console.log("Tabela 'unidadeColaborador' sincronizada com sucesso!");
+
+    await unidadeCliente.sync();
+    console.log("Tabela 'unidadeCliente' sincronizada com sucesso!");
+
+    // Adicione mais tabelas conforme necessário...
+
   } catch (error) {
     console.error("Erro durante a sincronização das tabelas:", error);
   }

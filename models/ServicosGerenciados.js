@@ -1,9 +1,9 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../database/db");
+const conexaodb = require("../database/db");
 const UnidadeEmpresa = require("./UnidadeEmpresa");
 const Servico = require("./Servico");
 
-const ServicosGerenciados = sequelize.define("ServicosGerenciados", {
+const ServicosGerenciados = conexaodb.define("ServicosGerenciados", {
     nomeServico: {
         type: DataTypes.STRING,
         allowNull: true,
