@@ -23,7 +23,6 @@ const Agendamento = sequelize.define("Agendamento", {
 // Sincronização com o banco de dados
 
 Agendamento.belongsTo(Cliente, { foreignKey: "idCliente" }); // Um agendamento pertence a um cliente
-Agendamento.belongsTo(UnidadeEmpresa, { foreignKey: "idUnidade" }); // Um agendamento pertence a uma unidade de empresa
 Agendamento.belongsTo(Servico, { foreignKey: "idServico" }); // Um agendamento pertence a um serviço
 
 module.exports = Agendamento;

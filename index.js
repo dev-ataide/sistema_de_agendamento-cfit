@@ -23,7 +23,18 @@ conexaodb
 const testeRoutes = require("./routes/testeRoute");
 app.use('/', testeRoutes);
 
+const clienteRoutes = require("./routes/clienteRoutes");
+app.use('/', clienteRoutes);
 
+const agendamentoRoutes = require("./routes/agendamentoRoutes");
+app.use('/', agendamentoRoutes);
+
+
+const servicoRoutes = require("./routes/servicoRoutes");
+app.use('/', servicoRoutes)
+
+const relacionamentoRoutes = require("./routes/routesRelacionamento");
+app.use('/', relacionamentoRoutes)
 
 
 const port = 8080;
