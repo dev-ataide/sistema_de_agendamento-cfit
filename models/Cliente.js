@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/db");
+const Pacote = require("./Pacote");
 
 const Cliente = sequelize.define("Cliente", {
     id: {
@@ -8,7 +9,7 @@ const Cliente = sequelize.define("Cliente", {
         autoIncrement: true,
         allowNull: false,
     },
-    nome: { // Corrigi o nome do campo
+    nome: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -37,7 +38,21 @@ const Cliente = sequelize.define("Cliente", {
         type: DataTypes.DATE,
         allowNull: true,
     },
+    pacoteId: {
+        type: DataTypes.INTEGER, // Chave estrangeira que se relaciona com o ID do Pacote
+        allowNull: true,
+    },
+    idasRestantes: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+}, {
+    createdAt: false, // Não incluir a coluna createdAt nas operações de criação
+    updatedAt: false, // Não incluir a coluna updatedAt nas operações de atualização
+
 });
 
+// Defina a relação entre Cliente e Pacote
+Cliente.belongsTo(Pacote, { foreignKey: 'pacoteId' });
 
 module.exports = Cliente;

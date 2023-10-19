@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes e Pacotes</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Clientes e Pacotes</h1>
+
+        <!-- Tabela de Clientes -->
+        <h2>Clientes</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Email</th>
+                    <th>Pacote</th>
+                    <th>Idas Restantes</th>
+                </tr>
+            </thead>
+            <tbody id="clientesTable">
+                <!-- Os dados dos clientes serão exibidos aqui -->
+            </tbody>
+        </table>
+
+        <!-- Botão para ir para a página de Informações -->
+        <a class="btn btn-primary" href="informacoes.html">Ver Informações</a>
+        <a class="btn btn-primary mt-3" href="concluirServico.html">Voltar para Page ConcluirServicos</a>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+    <script>
+        // Recuperar dados de clientes e pacotes por meio de uma solicitação Axios
+        document.addEventListener("DOMContentLoaded", function() {
+            // Obter dados de clientes com detalhes do pacote
+            axios.get("http://localhost:8080/pacotecliente")
+                .then(function (response) {
+                    const clientesTable = document.getElementById("clientesTable");
+                    response.data.forEach(function (cliente) {
+                        clientesTable.innerHTML += `
+                            <tr>
+                                <td>${cliente.id}</td>
+                                <td>${cliente.nome}</td>
+                                <td>${cliente.telefone}</td>
+                                <td>${cliente.email}</td>
+                                <td>${cliente.Pacote.nomePacote}</td>
+                                <td>${cliente.idasRestantes}</td>
+                            </tr>
+                        `;
+                    });
+                })
+                .catch(function (error) {
+                    console.error("Erro ao buscar clientes:", error);
+                });
+        });
+    </script>
+</body>
+</html>

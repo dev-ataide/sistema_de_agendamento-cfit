@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editar Cliente</title>
+    <!-- Inclua o Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Editar Cliente</h1>
+        <form id="editar-cliente-form">
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" class="form-control" id="nome" name="nome">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="telefone">Telefone:</label>
+                <input type="text" class="form-control" id="telefone" name="telefone">
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="button" class="btn btn-danger" id="excluir-cliente-button">Excluir Cliente</button>
+            <!-- Link para a página de histórico do cliente com o ID do cliente passado como parâmetro na URL -->
+            <a class="btn btn-secondary" href="historicoCliente.html" id="ver-historico-button">Ver Hist</a>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const clienteId = urlParams.get('id');
+
+        // Função para buscar e preencher os detalhes do cliente para edição
+        async function fetchClienteParaEdicao() {
+            try {
+                const response = await axios.get(`http://localhost:8080/clientes/${clienteId}`);
+                const cliente = response.data;
+
+                if (response.status === 200) {
+                    document.getElementById('nome').value = cliente.nome;
+                    document.getElementById('email').value = cliente.email;
+                    document.getElementById('telefone').value = cliente.telefone;
+                } else {
+                    console.error(cliente.error || 'Erro ao buscar detalhes do cliente');
+                }
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+            }
+        }
+
+        // Evento de envio do formulário
+        document.getElementById('editar-cliente-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Implemente a lógica de atualização do cliente aqui
+        });
+
+        // Carregue os detalhes do cliente para edição ao carregar a página
+        fetchClienteParaEdicao();
+
+        // Evento de exclusão do cliente
+        document.getElementById('excluir-cliente-button').addEventListener('click', async () => {
+            if (confirm('Tem certeza de que deseja excluir este cliente?')) {
+                try {
+                    const response = await axios.delete(`http://localhost:8080/clientes/${clienteId}`);
+                    if (response.status === 204) {
+                        alert('Cliente excluído com sucesso.');
+                        window.location.href = '/listagem-clientes.html'; // Redirecionar para a página de listagem de clientes
+                    } else {
+                        console.error('Erro ao excluir o cliente');
+                    }
+                } catch (error) {
+                    console.error('Erro na requisição:', error);
+                }
+            }
+        });
+
+        // Define o ID do cliente para o link "Ver Hist"
+        document.getElementById('ver-historico-button').href = `historicoCliente.html?id=${clienteId}`;
+    </script>
+</body>
+</html>

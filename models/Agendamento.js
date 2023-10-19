@@ -1,4 +1,3 @@
-// Agendamento.js
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/db");
 const Cliente = require("./Cliente"); // Importe o modelo Cliente aqui
@@ -16,6 +15,18 @@ const Agendamento = sequelize.define("Agendamento", {
   },
   statusAgendamento: {
     type: DataTypes.ENUM("Confirmado", "Pendente", "Cancelado"),
+    allowNull: false,
+  },
+  MetodoDePagamento: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  StatusDePagamento: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  StatusDeConsulta: {
+    type: DataTypes.ENUM("Cancelada", "Pendente", "Remarcada", "Realizada"),
     allowNull: false,
   },
 });
