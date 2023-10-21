@@ -2,7 +2,55 @@ const express = require('express');
 const router = express.Router();
 const Cliente = require('../../models/Cliente'); // Supondo que o modelo esteja localizado aqui
 const Pacote = require('../../models/Pacote')
-// Rota para criar um novo cliente (POST)
+const clienteAuth = require('../../middlewares/clienteAuth')
+
+const jwt = require('jsonwebtoken');
+
+const JWTSecret = "123";
+
+// Rota para autenticar um cliente
+router.post('/autenticar', async (req, res) => {
+  try {
+    const email = req.body.email;
+    const senha = req.body.senha;
+    console.log(email)
+    console.log(senha)
+    // Verifique se o email e a senha foram fornecidos
+    if (!email || !senha) {
+      return res.status(400).json({ error: 'Email e senha são obrigatórios' });
+    }
+
+    // Busque o cliente com o email fornecido
+    const cliente = await Cliente.findOne({ where: { email } });
+
+    if (!cliente) {
+      return res.status(401).json({ error: 'Email ou senha incorretos' });
+    }
+
+    // Verifique se a senha fornecida coincide com a senha no banco de dados (em texto simples)
+    if (senha === cliente.senha) {
+      // Senha correta, cliente autenticado
+      // Vamos gerar um token JWT para este cliente
+      jwt.sign({ id: cliente.id, email: cliente.email, nome: cliente.nome }, JWTSecret, { expiresIn: '7d' }, (err, token) => {
+        if (err) {
+            console.error(err); // Adicione esta linha para registrar o erro
+            res.status(500); // Altere o status para 500 (Erro interno do servidor)
+            res.json({ err: "Falha Interna" });
+        } else {
+            res.status(200).json({ message: 'Autenticação bem-sucedida', token });
+        }
+    });
+        } else {
+      // Senha incorreta
+      res.status(401).json({ error: 'Email ou senha incorretos' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao autenticar o cliente' });
+  }
+});
+
+
 router.post('/clientes', async (req, res) => {
   try {
     const novoCliente = await Cliente.create({
@@ -13,7 +61,7 @@ router.post('/clientes', async (req, res) => {
       foto: req.body.foto,
       sexo: req.body.sexo,
       dataNascimento: req.body.dataNascimento,
-      idasRestantes: req.body.idasRestantes
+      idasRestantes: 0
     });
     res.status(201).json(novoCliente);
   } catch (error) {
@@ -22,7 +70,7 @@ router.post('/clientes', async (req, res) => {
   }
 });
 
-router.get('/clientes', async (req, res) => {
+router.get('/clientes', clienteAuth, async (req, res) => {
   try {
     const clientes = await Cliente.findAll();
     res.status(200).json(clientes);

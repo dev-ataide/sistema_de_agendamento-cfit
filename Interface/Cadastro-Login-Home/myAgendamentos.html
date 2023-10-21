@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Minha Página de Clientes</title>
+</head>
+<body>
+    <h1>Lista de Clientes</h1>
+    <ul id="clientesList"></ul>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Substitua "SEU_TOKEN_DE_AUTENTICACAO" pelo seu token JWT real
+            const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2FvLnNpbHZhQGV4YW1wbGUuY29tIiwibm9tZSI6Ikpvw6NvIFNpbHZhIiwiaWF0IjoxNjk3ODQ5MTE1LCJleHAiOjE2OTg0NTM5MTV9.eJGwWsMlxYVRoT9dlPI9P9BT3aJ1Y_06H8D61H47wJA";
+
+            // Configura o cabeçalho de autorização com o token.
+            const axiosConfig = {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            };
+
+            // Faça uma solicitação GET para a API /clientes com o cabeçalho de autorização.
+            axios.get("http://localhost:8080/clientes", axiosConfig)
+                .then((response) => {
+                    const clientesList = response.data;
+
+                    // Encontre o elemento UL onde você deseja listar os clientes
+                    const ul = document.getElementById("clientesList");
+
+                    // Preencha a lista de clientes
+                    clientesList.forEach((cliente) => {
+                        const li = document.createElement("li");
+                        li.textContent = `Nome: ${cliente.nome}, Email: ${cliente.email}`;
+                        ul.appendChild(li);
+                    });
+                })
+                .catch((error) => {
+                    console.error(error);
+                    // Lida com erros de solicitação GET
+                });
+        });
+    </script>
+</body>
+</html>

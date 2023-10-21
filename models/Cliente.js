@@ -44,7 +44,7 @@ const Cliente = sequelize.define("Cliente", {
     },
     idasRestantes: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true
     },
 }, {
     createdAt: false, // Não incluir a coluna createdAt nas operações de criação

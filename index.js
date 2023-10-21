@@ -5,7 +5,18 @@ const app = express();
 const cors = require("cors");
 const conexaodb = require("./database/db");
 const SincronizarTabelas = require("./models/models")
+const session = require("express-session")
 
+
+app.use(
+    session({
+      secret: 'seu_segreto',
+      resave: false,
+      saveUninitialized: true,
+      // Você pode configurar outros parâmetros de sessão, se necessário
+    })
+  );
+  
 if (SincronizarTabelas) {
     console.log("{tables true}")
 }
@@ -33,6 +44,26 @@ app.use('/', servicoRoutes);
 app.use('/', pacoteRoutes);
 app.use('/', relacionamentoRoutes);
 
+/*app.get("/session", (req, res) => {
+    req.session.nome = "teste";
+    req.session.ano = 2023;
+    req.session.email = "teste@teste.com";
+    req.session.user = {
+        id: 10,
+        username: "maycon"
+    };
+
+    res.send("Sessão criada com sucesso!");
+});
+*/
+app.get("/leitura", (req,res) => {
+    res.json({
+       nome: req.session.nome,
+        ano: req.session.ano,
+       email: req.session.email
+    
+    })
+})
 const port = 8080;
 app.listen(port, () => {
     console.log(`Servidor on-line! Acesse http://localhost:${port}`);
