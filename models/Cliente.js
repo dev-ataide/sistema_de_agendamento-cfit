@@ -46,9 +46,9 @@ const Cliente = sequelize.define("Cliente", {
         type: DataTypes.INTEGER,
         allowNull: true
     },
-}, {
-    createdAt: false, // Não incluir a coluna createdAt nas operações de criação
-    updatedAt: false, // Não incluir a coluna updatedAt nas operações de atualização
+}, 
+{
+timestamps:false 
 
 });
 

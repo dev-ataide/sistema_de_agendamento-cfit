@@ -39,7 +39,12 @@ const Usuario = sequelize.define("Usuario", {
         type: DataTypes.ENUM("cliente", "gerente", "administrador"), // Alterado para letras minúsculas
         allowNull: false,
     },
-});
+},
+ {
+    timestamps:false
+ }
+);
+
 
 Usuario.hasOne(Cliente, { foreignKey: "idUsuario" });
 Usuario.hasOne(Gerente, { foreignKey: "idUsuario" });

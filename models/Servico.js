@@ -18,6 +18,9 @@ const Servico = sequelize.define("Servico", {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
   },
+},
+{
+  timestamps: false, // Desabilita os campos createdAt e updatedAt
 });
 
 //Servico.belongsTo(Unidade, { foreignKey: 'unidadeId' });

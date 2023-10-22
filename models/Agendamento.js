@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/db");
-const Cliente = require("./Cliente"); // Importe o modelo Cliente aqui
+const Cliente = require("./Cliente");
 const UnidadeEmpresa = require("./UnidadeEmpresa");
 const Servico = require("./Servico");
 
@@ -29,11 +29,12 @@ const Agendamento = sequelize.define("Agendamento", {
     type: DataTypes.ENUM("Cancelada", "Pendente", "Remarcada", "Realizada"),
     allowNull: false,
   },
+}, 
+{
+  timestamps: false, // Desabilita os campos createdAt e updatedAt
 });
 
-// Sincronização com o banco de dados
-
-Agendamento.belongsTo(Cliente, { foreignKey: "idCliente" }); // Um agendamento pertence a um cliente
-Agendamento.belongsTo(Servico, { foreignKey: "idServico" }); // Um agendamento pertence a um serviço
+Agendamento.belongsTo(Cliente, { foreignKey: "idCliente" });
+Agendamento.belongsTo(Servico, { foreignKey: "idServico" });
 
 module.exports = Agendamento;

@@ -37,6 +37,11 @@ const Colaborador = conexaodb.define("Colaborador", {
         type: DataTypes.ENUM('M', 'F'),
         allowNull: true,
     },
-});
+},
+{
+    timestamps:false 
+    
+    });
+    ;
 
 module.exports = Colaborador;
