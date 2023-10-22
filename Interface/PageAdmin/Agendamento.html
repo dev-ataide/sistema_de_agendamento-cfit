@@ -21,15 +21,20 @@
                 <option value="nome">NOME</option>
             </select>
         </div>
+        
         <div class="form-group" id="clienteIdFilterGroup" style="display: none;">
             <label for="clienteIdFilter">Filtrar por ID do Cliente</label>
             <input type="number" class="form-control" id="clienteIdFilter">
         </div>
         <div class="form-group" id="clienteNomeFilterGroup" style="display: none;">
-            <label for "clienteNomeFilter">Filtrar por Nome do Cliente</label>
+            <label for =  "clienteNomeFilter">Filtrar por Nome do Cliente</label>
             <input type="text" class="form-control" id="clienteNomeFilter">
         </div>
         <button class="btn btn-primary" onclick="filtrarAgendamentos()">Filtrar</button>
+        <button class="btn btn-primary" onclick="verTodosClientes()">Ver Todos os Clientes</button>
+        <button class="btn btn-primary" onclick="concluirServico()">Concluir Serviço </button>
+        <button class="btn btn-primary" onclick="infoClientes()">infoClientes </button>
+
 
         <!-- Tabela de Agendamentos com Serviços -->
         <h2>Agendamentos com Serviços</h2>
@@ -54,6 +59,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script>
+
+function concluirServico() {
+    // Redireciona para a página que lista todos os clientes
+    window.location.href = "../Trash/concluirServico.html"; // Substitua pelo caminho correto
+}
+
+function infoClientes() {
+    // Redireciona para a página que lista todos os clientes
+    window.location.href = "../Trash/informacoes.html"; // Substitua pelo caminho correto
+}
+
+function verTodosClientes() {
+    // Redireciona para a página que lista todos os clientes
+    window.location.href = "../PageCliente/getCliente.html"; // Substitua pelo caminho correto
+}
+
         // Atualiza os campos de filtro com base na escolha do filtro
         document.getElementById("filtroTipo").addEventListener("change", function () {
             const filtroTipo = this.value;

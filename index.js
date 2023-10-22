@@ -37,12 +37,15 @@ const agendamentoRoutes = require("./routes/agendamentoRoutes");
 const servicoRoutes = require("./routes/servicoRoutes");
 const pacoteRoutes = require("./routes/pacoteRoutes");
 const relacionamentoRoutes = require("./routes/relacionamentosRoutes");
+const usuarioRoutes = require("./routes/usuarioRoutes")
+
 
 app.use('/', clienteRoutes);
 app.use('/', agendamentoRoutes);
 app.use('/', servicoRoutes);
 app.use('/', pacoteRoutes);
 app.use('/', relacionamentoRoutes);
+app.use('/', usuarioRoutes)
 
 /*app.get("/session", (req, res) => {
     req.session.nome = "teste";

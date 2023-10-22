@@ -1,45 +1,113 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Minha Página de Clientes</title>
+    <title>Meus Agendamentos</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 24px;
+            text-align: center;
+        }
+
+        #agendamentos {
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Lista de Clientes</h1>
-    <ul id="clientesList"></ul>
-
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Pagina Agendamentos</h5>
+                        <div id="agendamentos"></div>
+                        <button onclick="retornarParaAutenticadoCliente()" class="btn btn-primary">Voltar para Pagina Principal</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Substitua "SEU_TOKEN_DE_AUTENTICACAO" pelo seu token JWT real
-            const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2FvLnNpbHZhQGV4YW1wbGUuY29tIiwibm9tZSI6Ikpvw6NvIFNpbHZhIiwiaWF0IjoxNjk3ODQ5MTE1LCJleHAiOjE2OTg0NTM5MTV9.eJGwWsMlxYVRoT9dlPI9P9BT3aJ1Y_06H8D61H47wJA";
+        function retornarParaAutenticadoCliente() {
+            window.location.href = "./autenticadoCliente.html"; // Substitua pelo caminho correto
+        }
 
-            // Configura o cabeçalho de autorização com o token.
-            const axiosConfig = {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
+        document.addEventListener("DOMContentLoaded", async function () {
+            const clienteId = localStorage.getItem("clienteId");
+
+            if (clienteId) {
+                try {
+                    const response = await axios.get(`http://localhost:8080/informacoes/${clienteId}`);
+
+                    if (response.status === 200) {
+                        const cliente = response.data;
+
+                        if (cliente.Agendamentos && cliente.Agendamentos.length > 0) {
+                            const agendamentosDiv = document.getElementById("agendamentos");
+                            agendamentosDiv.innerHTML = "<h2>Meus Agendamentos:</h2>";
+                            cliente.Agendamentos.forEach(function (agendamento) {
+                                agendamentosDiv.innerHTML += `
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <p>ID Agendamento: ${agendamento.id}</p>
+                                            <p>Nome do Cliente: ${cliente.nome}</p>
+                                            <p>Data do Agendamento: ${formatarData(agendamento.dataHoraAgendamento)}</p>
+                                            <p>Nome do Serviço: ${agendamento.Servico.nomeServico}</p>
+                                            <p>Status de Pagamento: ${agendamento.StatusDePagamento}</p>
+                                            <p>Status de Consulta: ${agendamento.StatusDeConsulta}</p>
+                                        </div>
+                                    </div>
+                                `;
+                            });
+                        } else {
+                            agendamentosDiv.innerHTML = "<p>Nenhum agendamento encontrado para este cliente.</p>";
+                        }
+                    } else {
+                        console.error("Erro ao buscar informações do cliente:", response.status);
+                    }
+                } catch (error) {
+                    console.error("Erro ao enviar a solicitação:", error);
                 }
-            };
-
-            // Faça uma solicitação GET para a API /clientes com o cabeçalho de autorização.
-            axios.get("http://localhost:8080/clientes", axiosConfig)
-                .then((response) => {
-                    const clientesList = response.data;
-
-                    // Encontre o elemento UL onde você deseja listar os clientes
-                    const ul = document.getElementById("clientesList");
-
-                    // Preencha a lista de clientes
-                    clientesList.forEach((cliente) => {
-                        const li = document.createElement("li");
-                        li.textContent = `Nome: ${cliente.nome}, Email: ${cliente.email}`;
-                        ul.appendChild(li);
-                    });
-                })
-                .catch((error) => {
-                    console.error(error);
-                    // Lida com erros de solicitação GET
-                });
+            } else {
+                // Se o clienteId não estiver definido, redirecione de volta para a página de login
+                window.location.href = "./index.html"; // Substitua pelo caminho correto
+            }
         });
+
+        function formatarData(data) {
+            const dataFormatada = new Date(data).toLocaleDateString();
+            return dataFormatada;
+        }
     </script>
 </body>
 </html>

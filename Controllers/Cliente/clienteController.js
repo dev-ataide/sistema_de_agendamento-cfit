@@ -9,12 +9,12 @@ const jwt = require('jsonwebtoken');
 const JWTSecret = "123";
 
 // Rota para autenticar um cliente
+// Rota para autenticar um cliente
 router.post('/autenticar', async (req, res) => {
   try {
     const email = req.body.email;
     const senha = req.body.senha;
-    console.log(email)
-    console.log(senha)
+
     // Verifique se o email e a senha foram fornecidos
     if (!email || !senha) {
       return res.status(400).json({ error: 'Email e senha são obrigatórios' });
@@ -33,14 +33,14 @@ router.post('/autenticar', async (req, res) => {
       // Vamos gerar um token JWT para este cliente
       jwt.sign({ id: cliente.id, email: cliente.email, nome: cliente.nome }, JWTSecret, { expiresIn: '7d' }, (err, token) => {
         if (err) {
-            console.error(err); // Adicione esta linha para registrar o erro
-            res.status(500); // Altere o status para 500 (Erro interno do servidor)
-            res.json({ err: "Falha Interna" });
+          console.error(err);
+          res.status(500).json({ error: 'Falha Interna' });
         } else {
-            res.status(200).json({ message: 'Autenticação bem-sucedida', token });
+          // Retorna o token JWT e o ID do cliente
+          res.status(200).json({ message: 'Autenticação bem-sucedida', token, id: cliente.id });
         }
-    });
-        } else {
+      });
+    } else {
       // Senha incorreta
       res.status(401).json({ error: 'Email ou senha incorretos' });
     }
@@ -70,7 +70,9 @@ router.post('/clientes', async (req, res) => {
   }
 });
 
-router.get('/clientes', clienteAuth, async (req, res) => {
+//router.get('/clientes', clienteAuth, async (req, res) => { } -> rota c autenticacao
+
+router.get('/clientes', async (req, res) => {
   try {
     const clientes = await Cliente.findAll();
     res.status(200).json(clientes);
