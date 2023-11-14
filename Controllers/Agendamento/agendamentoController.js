@@ -31,7 +31,6 @@
             agendamento.disponibilidade = req.body.disponibilidade;
             agendamento.statusAgendamento = req.body.statusAgendamento;
             agendamento.idCliente = req.body.idCliente; // Atualizando a associação ao cliente
-            agendamento.idUnidade = req.body.idUnidade; // Atualizando a associação à unidade de empresa
             agendamento.idServico = req.body.idServico; // Atualizando a associação ao serviço
             agendamento.disponibilidade = '0';
             await agendamento.save(); // Salva as alterações no banco de dados

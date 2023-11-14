@@ -48,7 +48,7 @@ router.get('/informacoes', async (req, res) => {
 */
 // Rota para buscar um cliente por ID (GET)
 
-
+/*
 router.get('/informacoes/:clienteId', async (req, res) => {
   const { clienteId } = req.params;
 
@@ -71,6 +71,6 @@ router.get('/informacoes/:clienteId', async (req, res) => {
   }
 });
 
-
+*/
 
 module.exports = router;

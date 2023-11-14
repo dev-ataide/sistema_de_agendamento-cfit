@@ -1,10 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/db");
-const Cliente = require("./Cliente");
-const Gerente = require("./Gerente");
-const UnidadeEmpresa = require("./UnidadeEmpresa");
 
-const Usuario = sequelize.define("Usuario", {
+const Atendente = sequelize.define("Atendente", {
     nome: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -35,10 +32,6 @@ const Usuario = sequelize.define("Usuario", {
         type: DataTypes.ENUM("masculino", "feminino", "outro"), // Alterado para letras minúsculas
         allowNull: false,
     },
-    tipoUsuario: {
-        type: DataTypes.ENUM("cliente", "gerente", "administrador"), // Alterado para letras minúsculas
-        allowNull: false,
-    },
 },
  {
     timestamps:false
@@ -46,8 +39,4 @@ const Usuario = sequelize.define("Usuario", {
 );
 
 
-Usuario.hasOne(Cliente, { foreignKey: "idUsuario" });
-Usuario.hasOne(Gerente, { foreignKey: "idUsuario" });
-Usuario.hasOne(UnidadeEmpresa, { foreignKey: "idAdministrador" });
-
-module.exports = Usuario;
+module.exports = Atendente;

@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Cliente = require('../../models/Cliente'); // Supondo que o modelo esteja localizado aqui
 const Pacote = require('../../models/Pacote')
+const Agendamento = require('../../models/Agendamento'); // Supondo que você tenha um modelo Agendamento
+
 const clienteAuth = require('../../middlewares/clienteAuth')
 
 const jwt = require('jsonwebtoken');
@@ -10,7 +12,7 @@ const JWTSecret = "123";
 
 // Rota para autenticar um cliente
 // Rota para autenticar um cliente
-router.post('/autenticar', async (req, res) => {
+router.post('/autenticarCliente', async (req, res) => {
   try {
     const email = req.body.email;
     const senha = req.body.senha;
@@ -126,25 +128,7 @@ router.get('/clientes/:clienteId', async (req, res) => {
   }
 });
 
-router.get('/cliente-com-pacote/:clienteId', async (req, res) => {
-  try {
-    const clienteId = req.params.clienteId;
-
-    const cliente = await Cliente.findByPk(clienteId, {
-      include: [{ model: Pacote, as: 'Pacote' }],
-    });
-
-    if (!cliente) {
-      return res.status(404).json({ error: 'Cliente não encontrado' });
-    }
-
-    res.status(200).json(cliente);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro ao buscar o cliente' });
-  }
-});
-
+// regra de negócio
 router.post('/concluir-servico/:clienteId', async (req, res) => {
   try {
     const clienteId = req.params.clienteId;
@@ -195,6 +179,8 @@ router.delete('/clientes/:clienteId', async (req, res) => {
     res.status(500).json({ error: 'Erro ao excluir o cliente' });
   }
 });
+
+
 
 
 module.exports = router;

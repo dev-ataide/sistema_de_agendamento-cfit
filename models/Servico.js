@@ -23,6 +23,5 @@ const Servico = sequelize.define("Servico", {
   timestamps: false, // Desabilita os campos createdAt e updatedAt
 });
 
-//Servico.belongsTo(Unidade, { foreignKey: 'unidadeId' });
 
 module.exports = Servico;
