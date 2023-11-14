@@ -10,10 +10,11 @@ const Usuario = require('../../models/Usuario');
 // Rota para autenticar o usuário
 router.post('/autenticarUsuario', async (req, res) => {
     try {
-        const { nome, senha } = req.body;
-        console.log(nome,senha)
+        const { email, senha } = req.body; // Alteração feita aqui
+        console.log(email, senha);
+        
         // Verifique se o usuário com as credenciais fornecidas existe no banco de dados
-        const usuario = await Usuario.findOne({ where: { nome, senha } });
+        const usuario = await Usuario.findOne({ where: { email, senha } });
 
         if (usuario) {
             // Credenciais válidas, você pode retornar um token JWT como resposta, por exemplo
@@ -28,6 +29,7 @@ router.post('/autenticarUsuario', async (req, res) => {
         res.status(500).json({ mensagem: 'Erro ao autenticar o usuário' });
     }
 });
+
 
 // Rota para criar um novo usuário
 router.post('/usuario', async (req, res) => {
