@@ -2,14 +2,22 @@ const express = require('express');
 const router = express.Router();
 const Servico = require('../../models/Servico'); // Supondo que o modelo Servico esteja localizado aqui
 
-// Rota para criar um novo serviço (POST)
 router.post('/servicos', async (req, res) => {
   try {
+    const { nomeServico, descricao, preco } = req.body;
+
+    // Verifica se o serviço já existe pelo nome
+    const servicoExistente = await Servico.findOne({ where: { nomeServico } });
+    if (servicoExistente) {
+      return res.status(400).json({ error: 'Já existe um serviço com este nome.' });
+    }
+
+    // Cria um novo serviço se não existir um com o mesmo nome
     const novoServico = await Servico.create({
-      nomeServico: req.body.nomeServico,
-      descricao: req.body.descricao,
-      duracao: req.body.duracao,
-      preco: req.body.preco,
+      nomeServico,
+      descricao,
+      duracao: 0,
+      preco,
     });
     res.status(201).json(novoServico);
   } catch (error) {

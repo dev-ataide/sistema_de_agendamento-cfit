@@ -181,6 +181,109 @@ router.delete('/clientes/:clienteId', async (req, res) => {
 });
 
 
+// Detalhes Cliente
+router.get('/clienteDetails/:clienteId', async (req, res) => {
+  try {
+    const clienteId = req.params.clienteId;
 
+    // Use o método `findByPk` para buscar um cliente pelo ID
+    const cliente = await Cliente.findByPk(clienteId, {
+      include: [
+        { model: Pacote, attributes: ['nomePacote', 'quantidadeTotalPacote', 'quantidadeRestanteCliente'] },
+        {
+          model: Agendamento,
+          attributes: ['dataHoraAgendamento', 'disponibilidade', 'statusAgendamento', 'MetodoDePagamento', 'StatusDePagamento', 'StatusDeConsulta'],
+        },
+      ],
+    });
 
+    if (!cliente) {
+      return res.status(404).json({ error: 'Cliente não encontrado' });
+    }
+
+    const dadosCruzados = {
+      cliente: {
+        id: cliente.id,
+        nome: cliente.nome,
+        telefone: cliente.telefone,
+        email: cliente.email,
+        foto: cliente.foto,
+        sexo: cliente.sexo,
+        dataNascimento: cliente.dataNascimento,
+        pacote: {
+          id: cliente.pacoteId,
+          nome: cliente.Pacote ? cliente.Pacote.nomePacote : null,
+          quantidadeTotal: cliente.Pacote ? cliente.Pacote.quantidadeTotalPacote : null,
+          quantidadeRestante: cliente.Pacote ? cliente.Pacote.quantidadeRestanteCliente : null,
+        },
+        idasRestantes: cliente.idasRestantes,
+      },
+      agendamentos: cliente.Agendamentos.map(agendamento => ({
+        id: agendamento.id,
+        dataHoraAgendamento: agendamento.dataHoraAgendamento,
+        disponibilidade: agendamento.disponibilidade,
+        statusAgendamento: agendamento.statusAgendamento,
+        MetodoDePagamento: agendamento.MetodoDePagamento,
+        StatusDePagamento: agendamento.StatusDePagamento,
+        StatusDeConsulta: agendamento.StatusDeConsulta,
+      })),
+    };
+
+    res.status(200).json(dadosCruzados);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao buscar dados detalhados do cliente' });
+  }
+});
+
+router.get('/dados-cliente-agendamentos', async (req, res) => {
+  try {
+    // Use o método `findAll` para buscar todos os clientes com seus agendamentos
+    const clientes = await Cliente.findAll({
+      include: [
+        {
+          model: Agendamento,
+          attributes: ['dataHoraAgendamento', 'StatusDeConsulta'],
+        },
+      ],
+    });
+
+    // Mapeie os clientes e seus agendamentos para o formato desejado
+    const dadosClientesAgendamentos = clientes.map(cliente => {
+      const agendamentos = cliente.Agendamentos.map(agendamento => ({
+        dataHoraAgendamento: agendamento.dataHoraAgendamento,
+        StatusDeConsulta: agendamento.StatusDeConsulta,
+      }));
+
+      return {
+        Cliente: {
+          id: cliente.id,
+          nome: cliente.nome,
+          telefone: cliente.telefone,
+          email: cliente.email,
+          // Adicione outros campos do cliente conforme necessário
+        },
+        'N° de Agendamentos': agendamentos.length,
+        CONTATO: cliente.telefone || cliente.email,
+        'Data do Último Agendamento': agendamentos.length > 0 ? agendamentos[agendamentos.length - 1].dataHoraAgendamento : null,
+        'Consulta Realizada': agendamentos.length > 0 ? agendamentos.some(agendamento => agendamento.StatusDeConsulta === 'Realizada') : false,
+        Detalhes: {
+          agendamentos,
+        },
+      };
+    });
+
+    // Calcule o número total de agendamentos realizados por cliente
+    const totalAgendamentosPorCliente = dadosClientesAgendamentos.reduce((total, cliente) => total + cliente['N° de Agendamentos'], 0);
+
+    res.json({
+      dadosClientesAgendamentos,
+      totalAgendamentosPorCliente,
+    });
+
+  } catch (error) {
+    console.error('Erro ao buscar dados da API', error);
+    res.status(500).json({ error: 'Erro ao buscar dados da API' });
+  }
+});
 module.exports = router;
