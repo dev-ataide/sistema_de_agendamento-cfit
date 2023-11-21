@@ -11,8 +11,6 @@ router.post('/servicos', async (req, res) => {
     if (servicoExistente) {
       return res.status(400).json({ error: 'Já existe um serviço com este nome.' });
     }
-
-    // Cria um novo serviço se não existir um com o mesmo nome
     const novoServico = await Servico.create({
       nomeServico,
       descricao,
@@ -26,7 +24,6 @@ router.post('/servicos', async (req, res) => {
   }
 });
 
-// Rota para atualizar um serviço existente (PUT)
 router.put('/servicos/:id', async (req, res) => {
   try {
     const servico = await Servico.findByPk(req.params.id);
@@ -48,16 +45,17 @@ router.put('/servicos/:id', async (req, res) => {
   }
 });
 
-router.get('/servicos', async (req, res) => {
-    try {
-      const servicos = await Servico.findAll();
-      res.status(200).json(servicos);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Erro ao buscar os serviços' });
-    }
-  });
-  
+router.get('/servicos', (req, res) => {
+  Servico.findAll()
+      .then(servicos => {
+          res.status(200).json(servicos);
+      })
+      .catch(error => {
+          console.error(error);
+          res.status(500).json({ error: 'Erro ao buscar os serviços' });
+      });
+});
+
 
 router.post('/concluir-servico/:clienteId', async (req, res) => {
     try {

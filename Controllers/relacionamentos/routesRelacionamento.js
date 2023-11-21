@@ -11,6 +11,7 @@ const Pacote = require('../../models/Pacote')
 Cliente.hasMany(Agendamento, { foreignKey: 'idCliente' });
 Agendamento.belongsTo(Servico, { foreignKey: 'idServico' });
 
+//API que retorna informações para a tela principal
 
 router.get('/informacoes', async (req, res) => {
   try {
