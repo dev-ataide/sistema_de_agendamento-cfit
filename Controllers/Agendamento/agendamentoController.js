@@ -5,7 +5,27 @@ const Cliente = require('../../models/Cliente')
 const Servico = require('../../models/Servico')
 
 // Rota para criar um novo agendamento (POST)
+
 router.post('/agendamentos', async (req, res) => {
+    try {
+      const novoAgendamento = await Agendamento.create({
+        dataHoraAgendamento: req.body.dataHoraAgendamento,
+        disponibilidade: req.body.disponibilidade,
+        statusAgendamento: req.body.statusAgendamento,
+        MetodoDePagamento: req.body.MetodoDePagamento,
+        StatusDePagamento: req.body.StatusDePagamento,
+        StatusDeConsulta: req.body.StatusDeConsulta,
+        idCliente: req.body.idCliente, // Associando o cliente ao agendamento
+        idServico: req.body.idServico, // Associando o serviço ao agendamento
+      });
+      res.status(201).json(novoAgendamento);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erro ao criar o agendamento' });
+    }
+  });
+  
+/*router.post('/agendamentos', async (req, res) => {
     try {
         const novoAgendamento = await Agendamento.create({
             dataHoraAgendamento: req.body.dataHoraAgendamento,
@@ -20,7 +40,7 @@ router.post('/agendamentos', async (req, res) => {
         res.status(500).json({ error: 'Erro ao criar o agendamento' });
     }
 });
-
+*/
 // Rota para atualizar um agendamento existente (PUT)
 router.put('/agendamentos/:id', async (req, res) => {
     try {
