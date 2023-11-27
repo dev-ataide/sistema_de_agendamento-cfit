@@ -22,7 +22,7 @@ router.post('/autenticarAtendente', (req, res) => {
 
 router.post('/atendente', (req, res) => {
     const { nome, email, senha, cpf, numero_whatsapp, endereco, sexo } = req.body;
-
+    
     Atendente.create({
         nome,
         email,

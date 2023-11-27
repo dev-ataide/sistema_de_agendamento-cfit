@@ -47,6 +47,8 @@ const Cliente = sequelize.define("Cliente", {
         allowNull: true
     },
 }, 
+
+
 {
 timestamps:false 
 

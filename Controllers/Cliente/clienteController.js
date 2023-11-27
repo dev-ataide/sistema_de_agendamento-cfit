@@ -10,10 +10,26 @@ const jwt = require('jsonwebtoken');
 
 const JWTSecret = "123";
 
+
+/*router.post('/autenticarCliente1', async (req, res) => {
+  try {
+    const { email, senha } = req.body;
+    console.log(email)
+    console.log(senha)
+
+    res.status(200).json({ message: 'Autenticação bem-sucedida' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao autenticar o cliente' });
+  }
+});
+*/
 router.post('/autenticarCliente', async (req, res) => {
   try {
     const email = req.body.email;
     const senha = req.body.senha;
+    console.log(email)
+    console.log(senha)
 
     // Verifique se o email e a senha foram fornecidos
     if (!email || !senha) {
@@ -32,16 +48,19 @@ router.post('/autenticarCliente', async (req, res) => {
         } else {
           // Retorna o token JWT e o ID do cliente
           res.status(200).json({ message: 'Autenticação bem-sucedida', token, id: cliente.id });
+
         }
       });
     } else {
       res.status(401).json({ error: 'Email ou senha incorretos' });
+
     }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao autenticar o cliente' });
   }
 });
+
 
 router.post('/clientes', async (req, res) => {
   try {
@@ -52,10 +71,11 @@ router.post('/clientes', async (req, res) => {
       senha: req.body.senha,
       foto: req.body.foto,
       sexo: req.body.sexo,
-      dataNascimento: req.body.dataNascimento,
+      dataNascimento: '1990-10-12',
       idasRestantes: 0
     });
     res.status(201).json(novoCliente);
+    console.log(novoCliente)
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao criar o cliente' });

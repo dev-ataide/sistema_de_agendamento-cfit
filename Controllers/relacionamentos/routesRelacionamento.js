@@ -32,4 +32,30 @@ router.get('/informacoes', async (req, res) => {
 
 
 
+// Rota para obter todos os dados do cliente, agendamento e serviço relacionados
+router.get('/detailsCliente/:idCliente', async (req, res) => {
+  try {
+    const idCliente = req.params.idCliente;
+
+    // Busca o cliente pelo ID, incluindo informações do agendamento e serviço associados
+    const cliente = await Cliente.findByPk(idCliente, {
+      include: [
+        {
+          model: Agendamento,
+          include: Servico,
+        },
+      ],
+    });
+
+    if (!cliente) {
+      return res.status(404).json({ message: 'Cliente não encontrado' });
+    }
+
+    res.json(cliente);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
 module.exports = router;

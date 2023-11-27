@@ -81,6 +81,8 @@ router.get('/agendamentos', (req, res) => {
         });
 });
 
+
+
 router.post('/agendamento-atendente', (req, res) => {
 
     const { dataHoraAgendamento, disponibilidade, statusAgendamento, MetodoDePagamento,
