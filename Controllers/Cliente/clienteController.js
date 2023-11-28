@@ -5,11 +5,14 @@ const Cliente = require('../../models/Cliente'); // Supondo que o modelo esteja 
 //const Agendamento = require('../../models/Agendamento'); // Supondo que você tenha um modelo Agendamento
 
 //const clienteAuth = require('../../middlewares/clienteAuth')
-
 const jwt = require('jsonwebtoken');
 
 const JWTSecret = "123";
 
+const nodemailer = require('nodemailer');
+const transporter = require('../../API/emailConfig');
+
+// Configuração do Nodemailer
 
 /*router.post('/autenticarCliente1', async (req, res) => {
   try {
@@ -24,6 +27,50 @@ const JWTSecret = "123";
   }
 });
 */
+const emailUser = 'devmaycon.emailteste@gmail.com'; // Seu e-mail
+
+router.post('/clientes', async (req, res) => {
+  try {
+    // Supondo que os dados do cliente venham do corpo da requisição (req.body)
+    const { nome, telefone, email, senha, foto, sexo, dataNascimento } = req.body;
+
+    // Crie um novo cliente com os dados recebidos
+    const novoCliente = await Cliente.create({
+      nome,
+      telefone,
+      email,
+      senha,
+      foto,
+      sexo,
+      dataNascimento: '1990-10-12', // Apenas um exemplo fixo, você pode ajustar conforme necessário
+      idasRestantes: 0
+    });
+
+    const mailOptions = {
+      from: emailUser,
+      to: novoCliente.email,
+      subject: 'Bem-vindo!',
+      text: `Olá ${novoCliente.nome}, bem-vindo à nossa plataforma! Esperamos que tenha uma ótima experiência.`,
+    };
+
+    console.log('Enviando e-mail de boas-vindas para:', novoCliente.email);
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.error('Erro ao enviar e-mail de boas-vindas:', error);
+        res.status(500).json({ error: 'Erro ao enviar o e-mail de boas-vindas' });
+      } else {
+        console.log('E-mail de boas-vindas enviado:', info.response);
+        // Se quiser, pode enviar o novoCliente como resposta
+        res.status(201).json({ message: 'Cliente criado com sucesso', novoCliente });
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao criar o cliente:', error);
+    res.status(500).json({ error: 'Erro ao criar o cliente' });
+  }
+});
+
 router.post('/autenticarCliente', async (req, res) => {
   try {
     const email = req.body.email;
@@ -62,7 +109,7 @@ router.post('/autenticarCliente', async (req, res) => {
 });
 
 
-router.post('/clientes', async (req, res) => {
+/*router.post('/clientes', async (req, res) => {
   try {
     const novoCliente = await Cliente.create({
       nome: req.body.nome,
@@ -81,6 +128,11 @@ router.post('/clientes', async (req, res) => {
     res.status(500).json({ error: 'Erro ao criar o cliente' });
   }
 });
+*/
+
+//      // Enviar e-mail de boas-vindas
+//      enviarEmailBoasVindas(novoCliente.email, novoCliente.nome);
+
 
 //router.get('/clientes', clienteAuth, async (req, res) => { } -> rota c autenticacao
 
