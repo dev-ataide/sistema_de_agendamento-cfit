@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Cliente = require('../../models/Cliente'); // Supondo que o modelo esteja localizado aqui
 //const Pacote = require('../../models/Pacote')
-//const Agendamento = require('../../models/Agendamento'); // Supondo que você tenha um modelo Agendamento
+const Agendamento = require('../../models/Agendamento'); // Supondo que você tenha um modelo Agendamento
 
 //const clienteAuth = require('../../middlewares/clienteAuth')
 const jwt = require('jsonwebtoken');
@@ -223,7 +223,56 @@ router.delete('/clientes/:clienteId', async (req, res) => {
     res.status(500).json({ error: 'Erro ao excluir o cliente' });
   }
 });
+router.get('/dados-cliente-agendamentos', async (req, res) => {
+  try {
+    // Use o método `findAll` para buscar todos os clientes com seus agendamentos
+    const clientes = await Cliente.findAll({
+      include: [
+        {
+          model: Agendamento,
+          attributes: ['dataHoraAgendamento', 'StatusDeConsulta'],
+        },
+      ],
+    });
 
+    // Mapeie os clientes e seus agendamentos para o formato desejado
+    const dadosClientesAgendamentos = clientes.map(cliente => {
+      const agendamentos = cliente.Agendamentos.map(agendamento => ({
+        dataHoraAgendamento: agendamento.dataHoraAgendamento,
+        StatusDeConsulta: agendamento.StatusDeConsulta,
+      }));
+
+      return {
+        Cliente: {
+          id: cliente.id,
+          nome: cliente.nome,
+          telefone: cliente.telefone,
+          email: cliente.email,
+          // Adicione outros campos do cliente conforme necessário
+        },
+        'N° de Agendamentos': agendamentos.length,
+        CONTATO: cliente.telefone || cliente.email,
+        'Data do Último Agendamento': agendamentos.length > 0 ? agendamentos[agendamentos.length - 1].dataHoraAgendamento : null,
+        'Consulta Realizada': agendamentos.length > 0 ? agendamentos.some(agendamento => agendamento.StatusDeConsulta === 'Realizada') : false,
+        Detalhes: {
+          agendamentos,
+        },
+      };
+    });
+
+    // Calcule o número total de agendamentos realizados por cliente
+    const totalAgendamentosPorCliente = dadosClientesAgendamentos.reduce((total, cliente) => total + cliente['N° de Agendamentos'], 0);
+
+    res.json({
+      dadosClientesAgendamentos,
+      totalAgendamentosPorCliente,
+    });
+
+  } catch (error) {
+    console.error('Erro ao buscar dados da API', error);
+    res.status(500).json({ error: 'Erro ao buscar dados da API' });
+  }
+});
 /*
 // Detalhes Cliente
 router.get('/clienteDetails/:clienteId', async (req, res) => {
