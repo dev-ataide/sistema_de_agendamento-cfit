@@ -3,8 +3,8 @@ const router = express.Router();
 const nodemailer = require('nodemailer');
 
 // Configuração do Nodemailer
-const emailUser = 'devmaycon.emailteste@gmail.com'; // Seu e-mail
-const emailPass = 'uyvz gkzo bxom vjhb'; // Sua senha
+const emailUser = 'teste@teste.com'; // Seu e-mail
+const emailPass = '123'; // Sua senha
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',

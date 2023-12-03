@@ -29,6 +29,7 @@ const transporter = require('../../API/emailConfig');
 */
 const emailUser = 'devmaycon.emailteste@gmail.com'; // Seu e-mail
 
+
 router.post('/clientes', async (req, res) => {
   try {
     // Supondo que os dados do cliente venham do corpo da requisição (req.body)
@@ -108,34 +109,6 @@ router.post('/autenticarCliente', async (req, res) => {
   }
 });
 
-
-/*router.post('/clientes', async (req, res) => {
-  try {
-    const novoCliente = await Cliente.create({
-      nome: req.body.nome,
-      telefone: req.body.telefone,
-      email: req.body.email,
-      senha: req.body.senha,
-      foto: req.body.foto,
-      sexo: req.body.sexo,
-      dataNascimento: '1990-10-12',
-      idasRestantes: 0
-    });
-    res.status(201).json(novoCliente);
-    console.log(novoCliente)
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro ao criar o cliente' });
-  }
-});
-*/
-
-//      // Enviar e-mail de boas-vindas
-//      enviarEmailBoasVindas(novoCliente.email, novoCliente.nome);
-
-
-//router.get('/clientes', clienteAuth, async (req, res) => { } -> rota c autenticacao
-
 router.get('/clientes', async (req, res) => {
   try {
     const clientes = await Cliente.findAll();
@@ -143,6 +116,23 @@ router.get('/clientes', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao buscar os clientes' });
+  }
+});
+
+router.get('/clientes/:id', async (req, res) => {
+  try {
+    const clienteId = req.params.id;
+
+    const cliente = await Cliente.findByPk(clienteId);
+
+    if (!cliente) {
+      return res.status(404).json({ error: 'Cliente não encontrado' });
+    }
+
+    res.status(200).json(cliente);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao buscar o cliente' });
   }
 });
 

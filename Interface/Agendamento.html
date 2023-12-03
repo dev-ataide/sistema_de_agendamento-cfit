@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Agendamento</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="form-container">
+    <h2>Cadastro de Agendamento</h2>
+    <form id="agendamentoForm">
+      <label for="dataHoraAgendamento">Data e Hora do Agendamento:</label>
+      <input type="datetime-local" id="dataHoraAgendamento" name="dataHoraAgendamento" required><br><br>
+
+      <label for="statusAgendamento">Status do Agendamento:</label>
+      <input type="text" id="statusAgendamento" name="statusAgendamento" required><br><br>
+
+      <label for="MetodoDePagamento">Método de Pagamento:</label>
+      <input type="text" id="MetodoDePagamento" name="MetodoDePagamento" required><br><br>
+
+      <label for="StatusDePagamento">Status de Pagamento:</label>
+      <input type="text" id="StatusDePagamento" name="StatusDePagamento" required><br><br>
+
+      <label for="StatusDeConsulta">Status de Consulta:</label>
+      <input type="text" id="StatusDeConsulta" name="StatusDeConsulta" required><br><br>
+
+      <label for="idCliente">ID do Cliente:</label>
+      <input type="number" id="idCliente" name="idCliente" required><br><br>
+
+      <label for="idServico">ID do Serviço:</label>
+      <input type="number" id="idServico" name="idServico" required><br><br>
+
+      <input type="submit" value="Cadastrar Agendamento">
+    </form>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+<style>
+    /* Estilização básica do formulário */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+.form-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label,
+input {
+  margin-bottom: 10px;
+}
+
+input[type="submit"] {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+</style>
