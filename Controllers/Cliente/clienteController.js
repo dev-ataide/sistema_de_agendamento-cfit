@@ -43,9 +43,11 @@ router.post('/clientes', async (req, res) => {
       senha,
       foto,
       sexo,
-      dataNascimento: '1990-10-12', // Apenas um exemplo fixo, você pode ajustar conforme necessário
+      dataNascimento, // Apenas um exemplo fixo, você pode ajustar conforme necessário
       idasRestantes: 0
     });
+
+    console.log(JSON.stringify(novoCliente));
 
     const mailOptions = {
       from: emailUser,

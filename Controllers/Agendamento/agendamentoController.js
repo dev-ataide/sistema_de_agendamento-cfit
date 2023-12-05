@@ -26,14 +26,16 @@ router.post('/agendamentos', (req, res) => {
             } else {
                 console.log('Criando novo agendamento.');
                 Agendamento.create({
+
                     dataHoraAgendamento: req.body.dataHoraAgendamento,
-                    disponibilidade: req.body.disponibilidade,
-                    statusAgendamento: req.body.statusAgendamento,
+                    disponibilidade: 0,
+                    statusAgendamento: "Pendente",
                     MetodoDePagamento: req.body.MetodoDePagamento,
-                    StatusDePagamento: req.body.StatusDePagamento,
-                    StatusDeConsulta: req.body.StatusDeConsulta,
+                    StatusDePagamento: "Concluido",
+                    StatusDeConsulta: "Pendente",
                     idCliente: req.body.idCliente,
-                    idServico: req.body.idServico,
+                    idServico: req.body.idServico
+
                 })
                     .then(novoAgendamento => {
                         console.log('Novo agendamento criado:', novoAgendamento.toJSON());
@@ -146,7 +148,7 @@ router.post('/agendamento-atendente', (req, res) => {
                     console.log('Nome Serviço:', servicoEncontrado.nomeServico);
                     return Agendamento.create({
                         dataHoraAgendamento,
-                        disponibilidade: 0,
+                        disponibilidade: 1,
                         statusAgendamento,
                         MetodoDePagamento,
                         StatusDePagamento,
@@ -255,11 +257,12 @@ function verificarAgendamentos() {
     });
 }
 
-const intervaloVerificacao = 5000; // 5 segundos em milissegundos
+//se tirar os comentários o lembrete será ativado 
+/*const intervaloVerificacao = 30000; // 5 segundos em milissegundos
 
-//setInterval(verificarAgendamentos, intervaloVerificacao);
-//verificarAgendamentos();
-
+setInterval(verificarAgendamentos, intervaloVerificacao);
+verificarAgendamentos();
+*/
 
 
 
